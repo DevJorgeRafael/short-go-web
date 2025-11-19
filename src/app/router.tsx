@@ -1,29 +1,44 @@
 import { createBrowserRouter } from 'react-router-dom';
-import App from '@/app/App'; // Tu Landing Page actual
 import { LoginPage } from '@/features/auth/pages/LoginPage';
 import { RegisterPage } from '@/features/auth/pages/RegisterPage';
+import { MainLayout } from '@/shared/components/layout/MainLayout';
+import { ProtectedRoute } from '@/features/auth/components/ProtectedRoute';
+import { HomePage } from '@/features/short-links/pages/HomePage';
+import { DashboardPage } from '@/features/short-links/pages/DashboardPage';
+import StatsPage from '@/features/analytics/pages/StatsPage';
 
 export const router = createBrowserRouter([
     {
         path: '/',
-        element: <App />, // Esta es tu Home (Landing Page)
+        element: <MainLayout />,
+        children: [
+            {
+                index: true,
+                element: <HomePage />,
+            },
+            {
+                path: 'auth/login',
+                element: <LoginPage />,
+            },
+            {
+                path: 'auth/register',
+                element: <RegisterPage />,
+            },
+            {
+                path: 'stats/:statsCode',
+                element: <StatsPage />,
+            },
+        ],
     },
+    // Rutas protegidas anidadas
     {
-        path: '/auth/login', // Prefiero agruparlas bajo /auth, pero puede ser /login directo si gustas
-        element: <LoginPage />,
+        element: <ProtectedRoute />, // 👈 Usa Outlet
+        children: [
+            {
+                path: '/dashboard',
+                element: <DashboardPage />,
+            },
+            // Aquí puedes agregar más rutas protegidas
+        ],
     },
-    {
-        path: '/auth/register',
-        element: <RegisterPage />,
-    },
-    // Aquí agregaremos el Dashboard luego con ProtectedRoute
-    /*
-    {
-      path: '/dashboard',
-      element: <ProtectedRoute />,
-      children: [
-         { path: '', element: <DashboardPage /> }
-      ]
-    }
-    */
 ]);
