@@ -5,14 +5,10 @@ export const NavBar = () => {
     const { isAuthenticated, user, logout } = useAuthStore();
 
     return (
-        <nav className="relative z-20 border-b border-white/10 bg-white/5 backdrop-blur-xl">
+        <nav className="glass-card relative z-20 border-b border-white/10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
-                    {/* LOGO */}
                     <Link to="/" className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-lg bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
-                            <span className="text-white font-bold text-sm">SG</span>
-                        </div>
                         <span className="text-white font-bold text-xl">ShortGo</span>
                     </Link>
 
@@ -30,7 +26,7 @@ export const NavBar = () => {
                                     <span className="text-white/60 text-sm">{user?.email}</span>
                                     <button
                                         onClick={logout}
-                                        className="h-9 px-4 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white text-sm font-medium transition-all"
+                                        className="glass-input h-9 px-4 rounded-lg text-white text-sm font-medium"
                                     >
                                         Salir
                                     </button>
@@ -46,7 +42,7 @@ export const NavBar = () => {
                                 </Link>
                                 <Link
                                     to="/auth/register"
-                                    className="h-9 px-4 rounded-lg bg-linear-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white text-sm font-semibold transition-all"
+                                    className="btn-gradient h-9 px-4 rounded-lg text-white text-sm font-semibold flex items-center justify-center"
                                 >
                                     Registrarse
                                 </Link>
