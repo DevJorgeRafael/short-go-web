@@ -1,70 +1,121 @@
 @import "tailwindcss";
 
 @theme {
-  /* ... TUS VARIABLES (déjalas igual) ... */
+  /* === PALETAS === */
   --color-gi-deep: #0a1647;
   --color-gi-night: #1b2b5e;
   --color-gi-royal: #2d4a9e;
   --color-gi-green: #4effb8;
   --color-gi-cyan: #5ce1e6;
-  /* ... resto de variables ... */
+
+  /* Fuentes */
+  --font-sans: Inter, "SF Pro Display", -apple-system, system-ui, sans-serif;
+  --font-display: "Clash Display", "PP Mori", sans-serif;
+  --font-serif: "PP Editorial New", "Tiempos", Georgia, serif;
 }
 
-/* === CONFIGURACIÓN BASE Y FONDO === */
+/* === CONFIGURACIÓN BASE === */
 html,
-body,
-#root {
+body {
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
-  background: var(--color-gi-deep);
-  /* Fondo base por si falla el gradiente */
-  color: white;
-  font-family: var(--font-sans);
   overflow-x: hidden;
-  /* Evita scroll lateral si las bolas se salen */
+  font-family: var(--font-sans);
+  color: white;
 }
 
-/* El gradiente principal va en el body */
+/* Gradiente de fondo optimizado */
 body {
-  background: linear-gradient(180deg, var(--color-gi-deep) 0%, var(--color-gi-night) 50%, var(--color-gi-royal) 100%);
+  background: linear-gradient(135deg,
+      #0a1647 0%,
+      #1b2b5e 40%,
+      #2d4a9e 70%,
+      #3a5fb8 100%);
+  background-attachment: fixed;
   position: relative;
-  /* Necesario para posicionar los círculos */
+  min-height: 100vh;
 }
 
-/* === CÍRCULOS DE FONDO (Hechos con CSS puro) === */
+#root {
+  min-height: 100%;
+  width: 100%;
+  background: transparent;
+  position: relative;
+  z-index: 1;
+}
 
-/* Círculo 1: Arriba Izquierda (Azul/Cyan) */
+/* === CÍRCULOS DE FONDO === */
+
+/* Círculo principal central - Luz suave grande */
 body::before {
   content: '';
   position: fixed;
-  top: -10%;
-  left: -10%;
-  width: 50vw;
-  height: 50vw;
-  background: radial-gradient(circle, rgba(92, 225, 230, 0.15), transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 900px;
+  height: 900px;
+  background: radial-gradient(circle,
+      rgba(175, 252, 255, 0.15) 0%,
+      rgba(192, 255, 230, 0.08) 30%,
+      transparent 0%);
   border-radius: 50%;
-  filter: blur(60px);
-  z-index: -1;
-  /* Detrás de todo */
-  animation: float 10s ease-in-out infinite;
+  z-index: 0;
+  pointer-events: none;
 }
 
-/* Círculo 2: Abajo Derecha (Royal/Azul) */
+/* Círculo superior derecho - Acento cyan */
 body::after {
   content: '';
   position: fixed;
-  bottom: -10%;
-  right: -10%;
-  width: 60vw;
-  height: 60vw;
-  background: radial-gradient(circle, rgba(45, 74, 158, 0.2), transparent 70%);
+  top: 10%;
+  right: 5%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle,
+      rgba(45, 74, 158, 0.35) 0%,
+      rgba(92, 225, 230, 0.15) 40%,
+      transparent 0%);
   border-radius: 50%;
-  filter: blur(80px);
-  z-index: -1;
-  /* Detrás de todo */
-  animation: pulse 8s ease-in-out infinite;
+  z-index: 0;
+  animation: float 12s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Círculo inferior izquierdo - Balance */
+#root::before {
+  content: '';
+  position: fixed;
+  bottom: -150px;
+  left: -150px;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle,
+      rgba(78, 255, 184, 0.12) 0%,
+      rgba(45, 74, 158, 0.2) 50%,
+      transparent 0%);
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Círculo adicional superior izquierdo */
+#root::after {
+  content: '';
+  position: fixed;
+  top: 20%;
+  left: 10%;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle,
+      rgba(92, 225, 230, 0.1) 0%,
+      transparent 0%);
+  border-radius: 50%;
+  z-index: 0;
+  animation: float 15s ease-in-out infinite reverse;
+  pointer-events: none;
 }
 
 /* === ANIMACIONES === */
@@ -72,24 +123,55 @@ body::after {
 
   0%,
   100% {
-    transform: translate(0, 0);
+    transform: translate(0, 0) scale(1);
   }
 
-  50% {
-    transform: translate(20px, 20px);
+  33% {
+    transform: translate(-20px, 30px) scale(1.05);
+  }
+
+  66% {
+    transform: translate(20px, -20px) scale(0.95);
   }
 }
 
-@keyframes pulse {
+/* === ESTILOS PARA GLASSMORPHISM === */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
 
-  0%,
-  100% {
-    opacity: 0.5;
-    transform: scale(1);
-  }
+.glass-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s;
+}
 
-  50% {
-    opacity: 0.8;
-    transform: scale(1.1);
-  }
+.glass-input:focus {
+  outline: none;
+  border-color: rgba(6, 182, 212, 0.5);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Botón con gradiente vibrante */
+.btn-gradient {
+  background: linear-gradient(135deg, #2d4a9e 0%, #5ce1e6 100%);
+  box-shadow:
+    0 4px 20px rgba(92, 225, 230, 0.3),
+    0 8px 30px rgba(45, 74, 158, 0.2);
+  transition: all 0.3s ease;
+}
+
+.btn-gradient:hover {
+  background: linear-gradient(135deg, #3a5fb8 0%, #4effb8 100%);
+  box-shadow:
+    0 6px 24px rgba(92, 225, 230, 0.4),
+    0 12px 36px rgba(78, 255, 184, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-gradient:active {
+  transform: translateY(0) scale(0.98);
 }
