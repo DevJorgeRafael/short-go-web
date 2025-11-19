@@ -1,461 +1,82 @@
 @import "tailwindcss";
 
-/* ============================================
-   VARIABLES CSS - SISTEMA DE DISEÑO
-   ============================================ */
-
 @theme {
-  /* === PALETAS DE COLOR === */
-
-  /* App 1: General Intelligence */
+  /* ... TUS VARIABLES (déjalas igual) ... */
   --color-gi-deep: #0a1647;
   --color-gi-night: #1b2b5e;
   --color-gi-royal: #2d4a9e;
   --color-gi-green: #4effb8;
   --color-gi-cyan: #5ce1e6;
-
-  /* App 2: Streaming */
-  --color-stream-vibrant: #6b1fb1;
-  --color-stream-dark: #4a148c;
-  --color-stream-medium: #8e24aa;
-  --color-stream-cyan: #00e5ff;
-  --color-stream-pink: #ff4081;
-  --color-stream-yellow: #ffd600;
-  --color-stream-card: #2a0845;
-
-  /* App 3: Jeton */
-  --color-jeton-coral: #ff6b6b;
-  --color-jeton-salmon: #ff8e8e;
-  --color-jeton-peach: #ffb088;
-  --color-jeton-light: #ffe5e5;
-
-  /* App 4: Origin */
-  --color-origin-sky: #4a90e2;
-  --color-origin-atmos: #5ba3e8;
-  --color-origin-deep: #2e5c8a;
-  --color-origin-soft: #e8eef2;
-
-  /* === ESCALA DE ESPACIADO === */
-  --spacing-xs: 0.25rem;
-  /* 4px */
-  --spacing-sm: 0.5rem;
-  /* 8px */
-  --spacing-md: 1rem;
-  /* 16px */
-  --spacing-lg: 1.5rem;
-  /* 24px */
-  --spacing-xl: 2rem;
-  /* 32px */
-  --spacing-2xl: 3rem;
-  /* 48px */
-  --spacing-3xl: 4rem;
-  /* 64px */
-  --spacing-4xl: 6rem;
-  /* 96px */
-
-  /* === TIPOGRAFÍA === */
-  --font-serif: "PP Editorial New", "Tiempos", Georgia, serif;
-  --font-sans: Inter, "SF Pro Display", -apple-system, system-ui, sans-serif;
-  --font-display: "Clash Display", "PP Mori", sans-serif;
-
-  /* Tamaños de fuente fluidos */
-  --text-hero: clamp(3rem, 8vw, 6rem);
-  /* 48-96px */
-  --text-heading-xl: clamp(2rem, 5vw, 4rem);
-  /* 32-64px */
-  --text-heading-lg: clamp(1.5rem, 3vw, 3rem);
-  /* 24-48px */
-  --text-body-lg: 1.25rem;
-  /* 20px */
-  --text-body: 1rem;
-  /* 16px */
-  --text-small: 0.875rem;
-  /* 14px */
-  --text-caption: 0.75rem;
-  /* 12px */
-
-  /* === BORDES Y RADIOS === */
-  --radius-sm: 0.625rem;
-  /* 10px */
-  --radius-md: 0.75rem;
-  /* 12px */
-  --radius-lg: 1rem;
-  /* 16px */
-  --radius-xl: 1.5rem;
-  /* 24px */
-  --radius-full: 9999px;
-
-  /* === SOMBRAS === */
-  --shadow-soft: 0 2px 8px rgb(0 0 0 / 0.08);
-  --shadow-medium: 0 4px 20px rgb(0 0 0 / 0.15);
-  --shadow-elevated: 0 12px 40px rgb(0 0 0 / 0.25);
-
-  /* === Z-INDEX === */
-  --z-background: -1;
-  --z-content: 1;
-  --z-navigation: 100;
-  --z-modal: 1000;
-  --z-tooltip: 2000;
-
-  /* === TIMING === */
-  --duration-fast: 150ms;
-  --duration-normal: 300ms;
-  --duration-slow: 600ms;
-  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  /* ... resto de variables ... */
 }
 
-/* ============================================
-   RESET Y BASE STYLES
-   ============================================ */
-
-* {
+/* === CONFIGURACIÓN BASE Y FONDO === */
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  scroll-behavior: smooth;
-}
-
-body {
+  background: var(--color-gi-deep);
+  /* Fondo base por si falla el gradiente */
+  color: white;
   font-family: var(--font-sans);
-  font-size: var(--text-body);
-  line-height: 1.5;
-  color: rgb(255 255 255 / 0.9);
-  background: #0a0a0a;
+  overflow-x: hidden;
+  /* Evita scroll lateral si las bolas se salen */
 }
 
-/* ============================================
-   UTILIDADES DE GLASSMORPHISM
-   ============================================ */
-
-.glass {
-  background: rgb(255 255 255 / 0.1);
-  backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgb(255 255 255 / 0.2);
-  box-shadow: 0 8px 32px 0 rgb(31 38 135 / 0.15);
-}
-
-.glass-dark {
-  background: rgb(0 0 0 / 0.3);
-  backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgb(255 255 255 / 0.1);
-}
-
-.glass-card {
-  background: rgb(255 255 255 / 0.1);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgb(255 255 255 / 0.2);
-  border-radius: var(--radius-xl);
-  padding: var(--spacing-xl);
-}
-
-/* ============================================
-   GRADIENTES
-   ============================================ */
-
-.gradient-gi {
-  background: linear-gradient(180deg, #0a1647 0%, #1b2b5e 50%, #2d4a9e 100%);
-}
-
-.gradient-stream {
-  background: linear-gradient(180deg, #6b1fb1 0%, #4a148c 100%);
-}
-
-.gradient-jeton {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ffb088 100%);
-}
-
-.gradient-mesh {
-  background:
-    radial-gradient(circle at 20% 50%, var(--color-gi-royal) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, var(--color-gi-cyan) 0%, transparent 50%);
-}
-
-/* ============================================
-   TIPOGRAFÍA - ESCALAS
-   ============================================ */
-
-.text-hero {
-  font-size: var(--text-hero);
-  font-weight: 300;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-}
-
-.text-heading-xl {
-  font-size: var(--text-heading-xl);
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-.text-heading-lg {
-  font-size: var(--text-heading-lg);
-  font-weight: 600;
-  line-height: 1.3;
-}
-
-.text-body-lg {
-  font-size: var(--text-body-lg);
-  line-height: 1.6;
-}
-
-.font-serif {
-  font-family: var(--font-serif);
-}
-
-.font-display {
-  font-family: var(--font-display);
-}
-
-/* ============================================
-   COMPONENTES - BOTONES
-   ============================================ */
-
-.btn-primary {
-  padding: 0.875rem 2rem;
-  border-radius: var(--radius-md);
-  font-weight: 600;
-  font-size: var(--text-body);
-  color: white;
-  background: linear-gradient(135deg, #2d4a9e 0%, #5ce1e6 100%);
-  box-shadow: 0 4px 16px rgb(0 0 0 / 0.2);
-  transition: all var(--duration-normal) var(--ease-smooth);
-  border: none;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgb(0 0 0 / 0.3);
-}
-
-.btn-secondary {
-  padding: 0.75rem 1.5rem;
-  border-radius: var(--radius-sm);
-  background: rgb(255 255 255 / 0.15);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgb(255 255 255 / 0.3);
-  color: white;
-  font-weight: 500;
-  transition: all var(--duration-normal) var(--ease-smooth);
-  cursor: pointer;
-}
-
-.btn-secondary:hover {
-  background: rgb(255 255 255 / 0.25);
-  border-color: rgb(255 255 255 / 0.5);
-}
-
-.btn-icon {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: var(--radius-full);
-  background: rgb(255 255 255 / 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgb(255 255 255 / 0.2);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all var(--duration-normal) var(--ease-smooth);
-}
-
-.btn-icon:hover {
-  background: rgb(255 255 255 / 0.2);
-  transform: scale(1.05);
-}
-
-/* ============================================
-   COMPONENTES - CARDS
-   ============================================ */
-
-.card {
-  background: #ffffff;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-soft);
-  padding: var(--spacing-lg);
-  transition: all var(--duration-normal) var(--ease-smooth);
-}
-
-.card-dark {
-  background: rgb(255 255 255 / 0.05);
-  border: 1px solid rgb(255 255 255 / 0.1);
-}
-
-.card-hover {
-  cursor: pointer;
-}
-
-.card-hover:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: var(--shadow-elevated);
-}
-
-.card-thumbnail {
-  aspect-ratio: 16 / 9;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  box-shadow: var(--shadow-medium);
-}
-
-/* ============================================
-   COMPONENTES - INPUTS
-   ============================================ */
-
-.input-glass {
-  background: rgb(255 255 255 / 0.15);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgb(255 255 255 / 0.2);
-  border-radius: var(--radius-lg);
-  padding: 0.875rem 1.25rem;
-  font-size: var(--text-body);
-  color: white;
-  width: 100%;
-  transition: all var(--duration-normal) var(--ease-smooth);
-}
-
-.input-glass::placeholder {
-  color: rgb(255 255 255 / 0.6);
-}
-
-.input-glass:focus {
-  outline: none;
-  border-color: rgb(255 255 255 / 0.4);
-  background: rgb(255 255 255 / 0.2);
-  box-shadow: 0 0 0 3px rgb(255 255 255 / 0.1);
-}
-
-/* ============================================
-   COMPONENTES - BADGES
-   ============================================ */
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.375rem 1rem;
-  border-radius: 1.25rem;
-  background: rgb(255 255 255 / 0.2);
-  backdrop-filter: blur(10px);
-  font-size: var(--text-caption);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-/* ============================================
-   NAVEGACIÓN
-   ============================================ */
-
-.nav-top {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 4rem;
-  background: rgb(255 255 255 / 0.8);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgb(0 0 0 / 0.08);
-  padding: 0 var(--spacing-lg);
-  display: flex;
-  align-items: center;
-  z-index: var(--z-navigation);
-}
-
-.nav-bottom {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 4rem;
-  background: rgb(255 255 255 / 0.9);
-  backdrop-filter: blur(20px);
-  border-top: 1px solid rgb(0 0 0 / 0.08);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  z-index: var(--z-navigation);
-}
-
-/* ============================================
-   LAYOUTS
-   ============================================ */
-
-.hero-section {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 0 var(--spacing-lg);
-  text-align: center;
+/* El gradiente principal va en el body */
+body {
+  background: linear-gradient(180deg, var(--color-gi-deep) 0%, var(--color-gi-night) 50%, var(--color-gi-royal) 100%);
   position: relative;
-  overflow: hidden;
+  /* Necesario para posicionar los círculos */
 }
 
-.content-section {
-  padding: 5rem var(--spacing-lg);
-  max-width: 87.5rem;
-  /* 1400px */
-  margin: 0 auto;
-  width: 100%;
+/* === CÍRCULOS DE FONDO (Hechos con CSS puro) === */
+
+/* Círculo 1: Arriba Izquierda (Azul/Cyan) */
+body::before {
+  content: '';
+  position: fixed;
+  top: -10%;
+  left: -10%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, rgba(92, 225, 230, 0.15), transparent 70%);
+  border-radius: 50%;
+  filter: blur(60px);
+  z-index: -1;
+  /* Detrás de todo */
+  animation: float 10s ease-in-out infinite;
 }
 
-@media (min-width: 768px) {
-  .content-section {
-    padding: 7.5rem var(--spacing-2xl);
-  }
+/* Círculo 2: Abajo Derecha (Royal/Azul) */
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -10%;
+  right: -10%;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, rgba(45, 74, 158, 0.2), transparent 70%);
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: -1;
+  /* Detrás de todo */
+  animation: pulse 8s ease-in-out infinite;
 }
 
-.container-narrow {
-  max-width: 42.5rem;
-  /* 680px */
-  margin: 0 auto;
-}
-
-.container-medium {
-  max-width: 60rem;
-  /* 960px */
-  margin: 0 auto;
-}
-
-.container-wide {
-  max-width: 80rem;
-  /* 1280px */
-  margin: 0 auto;
-}
-
-/* ============================================
-   ANIMACIONES
-   ============================================ */
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
+/* === ANIMACIONES === */
 @keyframes float {
 
   0%,
   100% {
-    transform: translateY(0);
+    transform: translate(0, 0);
   }
 
   50% {
-    transform: translateY(-10px);
+    transform: translate(20px, 20px);
   }
 }
 
@@ -463,111 +84,12 @@ body {
 
   0%,
   100% {
-    opacity: 1;
+    opacity: 0.5;
+    transform: scale(1);
   }
 
   50% {
-    opacity: 0.5;
+    opacity: 0.8;
+    transform: scale(1.1);
   }
-}
-
-.animate-fade-in {
-  animation: fadeIn var(--duration-slow) var(--ease-smooth);
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-.animate-pulse {
-  animation: pulse 2s ease-in-out infinite;
-}
-
-/* ============================================
-   UTILIDADES
-   ============================================ */
-
-.blur-light {
-  backdrop-filter: blur(10px);
-}
-
-.blur-medium {
-  backdrop-filter: blur(20px);
-}
-
-.blur-heavy {
-  backdrop-filter: blur(40px);
-}
-
-.shadow-soft {
-  box-shadow: var(--shadow-soft);
-}
-
-.shadow-medium {
-  box-shadow: var(--shadow-medium);
-}
-
-.shadow-elevated {
-  box-shadow: var(--shadow-elevated);
-}
-
-.overlay-dark {
-  position: relative;
-}
-
-.overlay-dark::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgb(10 22 71 / 0.85);
-  z-index: var(--z-background);
-}
-
-/* Smooth transitions globales */
-.transition-smooth {
-  transition: all var(--duration-normal) var(--ease-smooth);
-}
-
-.transition-fast {
-  transition: all var(--duration-fast) var(--ease-smooth);
-}
-
-.transition-slow {
-  transition: all var(--duration-slow) var(--ease-smooth);
-}
-
-/* ============================================
-   SCROLLBAR PERSONALIZADO
-   ============================================ */
-
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgb(255 255 255 / 0.05);
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgb(255 255 255 / 0.2);
-  border-radius: var(--radius-full);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgb(255 255 255 / 0.3);
-}
-
-/* ============================================
-   SELECCIÓN DE TEXTO
-   ============================================ */
-
-::selection {
-  background: rgb(78 255 184 / 0.3);
-  color: white;
-}
-
-::-moz-selection {
-  background: rgb(78 255 184 / 0.3);
-  color: white;
 }
