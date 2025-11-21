@@ -3,22 +3,19 @@ export interface ShortLinkRequest {
 }
 
 export interface ShortLinkResponse {
-    originalUrl: string;      // URL original
-    shortUrl: string;          // URL acortado (ej: short.go/abc123)
-    qrCodeUrl: string;         // URL para descargar QR
-    statsCode: string;         // Código privado para ver stats
-    statsUrl: string;          // URL completa para stats
-    createdAt: string;
+    shortUrl: string;
+    originalUrl: string;
+    statsUrl: string;
+    qrUrl: string;
     expiresAt?: string;
 }
 
-export interface ShortLinkStats {
+export interface ShortLinkDisplay {
     shortCode: string;
-    totalClicks: number;
-    clicksByCountry: Record<string, number>;
-    clicksByDevice: Record<string, number>;
-    clicksByDate: Array<{
-        date: string;
-        clicks: number;
-    }>;
+    shortUrl: string;
+    originalUrl: string;
+    statsUrl: string;
+    qrUrl: string;
+    statsToken?: string;
+    expiresAt?: string;
 }

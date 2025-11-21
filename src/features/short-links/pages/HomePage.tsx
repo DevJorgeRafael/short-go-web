@@ -1,27 +1,30 @@
-import { useState } from 'react';
-import { useShortLinksStore } from '../store/shortLinksStore';
-import { shortLinksApi } from '../api/shortLinksApi';
+import { useForm } from 'react-hook-form';
+import { useAppDispatch, useAppSelector } from '@/shared/hooks/reduxHooks';
+import { createShortLink } from '../store/shortLinksSlice';
 import { ShortLinkResult } from '../components/ShortLinkResult';
+import type { ShortLinkRequest } from '../types/shortLink.types';
 
 export const HomePage = () => {
-    const [url, setUrl] = useState('');
-    const { currentLink, isLoading, setCurrentLink, setLoading, setError } = useShortLinksStore();
+    const dispatch = useAppDispatch();
+    const { currentLink, isLoading, error } = useAppSelector((state) => state.shortLinks);
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    // Configurar react-hook-form
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors, isValid }
+    } = useForm<ShortLinkRequest>({
+        mode: 'onChange', // Validación en tiempo real
+    });
 
-        if (!url.trim()) return;
-
-        setLoading(true);
-        setError(null);
-
+    const onSubmit = async (data: ShortLinkRequest) => {
         try {
-            const result = await shortLinksApi.createShortLink({ originalUrl: url });
-            setCurrentLink(result);
-        } catch (error: any) {
-            setError(error.response?.data?.message || 'Error al acortar el link');
-        } finally {
-            setLoading(false);
+            await dispatch(createShortLink(data)).unwrap();
+            reset(); // Limpiar el formulario después del éxito
+        } catch (error) {
+            // El error ya está manejado en el slice
+            console.error('Error al crear link:', error);
         }
     };
 
@@ -54,24 +57,37 @@ export const HomePage = () => {
                 {/* FORMULARIO */}
                 <div className="glass-card rounded-3xl overflow-hidden">
                     <div className="p-8 md:p-12">
-                        <form onSubmit={handleSubmit} className="space-y-6">
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                             <div className="space-y-3">
                                 <label className="text-sm font-medium text-white ml-1">
                                     Pega tu link largo aquí
                                 </label>
                                 <div className="flex flex-col sm:flex-row gap-3">
-                                    <input
-                                        type="url"
-                                        value={url}
-                                        onChange={(e) => setUrl(e.target.value)}
-                                        placeholder="https://ejemplo.com/tu-link-muy-largo..."
-                                        className="glass-input flex-1 h-14 rounded-xl px-4 text-white placeholder:text-white/30"
-                                        disabled={isLoading}
-                                        required
-                                    />
+                                    <div className="flex-1">
+                                        <input
+                                            type="url"
+                                            placeholder="https://ejemplo.com/tu-link-muy-largo..."
+                                            className={`glass-input w-full h-14 rounded-xl px-4 text-white placeholder:text-white/30 ${errors.originalUrl ? 'border-red-500/50' : ''
+                                                }`}
+                                            disabled={isLoading}
+                                            {...register('originalUrl', {
+                                                required: 'La URL es requerida',
+                                                pattern: {
+                                                    value: /^https?:\/\/.+/,
+                                                    message: 'Debe ser una URL válida (http:// o https://)'
+                                                }
+                                            })}
+                                        />
+                                        {/* Error de validación del formulario */}
+                                        {errors.originalUrl && (
+                                            <p className="text-red-300 text-sm mt-2 ml-1">
+                                                {errors.originalUrl.message}
+                                            </p>
+                                        )}
+                                    </div>
                                     <button
                                         type="submit"
-                                        disabled={isLoading}
+                                        disabled={isLoading || !isValid}
                                         className="btn-gradient h-14 px-8 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold flex items-center justify-center gap-2 whitespace-nowrap"
                                     >
                                         {isLoading ? (
@@ -104,6 +120,13 @@ export const HomePage = () => {
                                         )}
                                     </button>
                                 </div>
+
+                                {/* Error de la API */}
+                                {error && (
+                                    <div className="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3">
+                                        <p className="text-red-300 text-sm">{error}</p>
+                                    </div>
+                                )}
                             </div>
                         </form>
                     </div>

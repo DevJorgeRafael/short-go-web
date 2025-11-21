@@ -1,13 +1,11 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useAuthStore } from '../store/authStore';
+import { useAppSelector } from "@/shared/hooks/reduxHooks";
+import { Navigate, Outlet } from "react-router-dom";
 
 export const ProtectedRoute = () => {
-    const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-    const location = useLocation();
+    const { isAuthenticated } = useAppSelector((state) => state.auth);
 
     if (!isAuthenticated) {
-        // Redirige al login pero guarda la ubicación para volver después
-        return <Navigate to="/auth/login" state={{ from: location }} replace />;
+        return <Navigate to="/auth/login" replace />;
     }
 
     return <Outlet />;

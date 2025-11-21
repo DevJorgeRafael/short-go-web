@@ -1,8 +1,14 @@
-import { useAuthStore } from "@/features/auth/store/authStore";
+import { useAppSelector } from "@/shared/hooks/reduxHooks";
 import { Link } from "react-router-dom";
 
 export const NavBar = () => {
-    const { isAuthenticated, user, logout } = useAuthStore();
+    // Obtener auth desde Redux
+    const { isAuthenticated, user } = useAppSelector((state) => state.auth);
+
+    const handleLogout = () => {
+        // Por ahora no hace nada, lo implementaremos después
+        console.log('Logout');
+    };
 
     return (
         <nav className="glass-card relative z-20 border-b border-white/10">
@@ -25,7 +31,7 @@ export const NavBar = () => {
                                 <div className="flex items-center gap-3">
                                     <span className="text-white/60 text-sm">{user?.email}</span>
                                     <button
-                                        onClick={logout}
+                                        onClick={handleLogout}
                                         className="glass-input h-9 px-4 rounded-lg text-white text-sm font-medium"
                                     >
                                         Salir

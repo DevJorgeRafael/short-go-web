@@ -32,7 +32,7 @@ export const router = createBrowserRouter([
     },
     // Rutas protegidas anidadas
     {
-        element: <ProtectedRoute />, // 👈 Usa Outlet
+        element: <ProtectedRoute />, // Usa Outlet
         children: [
             {
                 path: '/dashboard',
