@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks/reduxHooks';
-import { createShortLink } from '../store/shortLinksSlice';
+import { createShortLink, clearCurrentLink } from '../store/shortLinksSlice';
 import { ShortLinkResult } from '../components/ShortLinkResult';
 import type { ShortLinkRequest } from '../types/shortLink.types';
 
@@ -130,14 +130,17 @@ export const HomePage = () => {
                             </div>
                         </form>
                     </div>
-
-                    {/* RESULTADO */}
-                    {currentLink && (
-                        <div className="border-t border-white/10 bg-black/20">
-                            <ShortLinkResult link={currentLink} />
-                        </div>
-                    )}
                 </div>
+                
+                {currentLink && (
+                    <ShortLinkResult
+                        link={currentLink}
+                        onClose={() => dispatch(clearCurrentLink())}
+                    >
+
+                    </ShortLinkResult>
+                )}
+
 
                 {/* FEATURES */}
                 <div className="grid sm:grid-cols-3 gap-4 mt-4">
