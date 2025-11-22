@@ -31,15 +31,25 @@ export const shortLinksApi = {
 }
 
 // ============================= HELPERS ====================================
+const getAppBaseUrl = (): string => {
+    const env = import.meta.env.VITE_ENV;
+    return env === 'prod'
+        ? import.meta.env.VITE_APP_URL_PROD
+        : import.meta.env.VITE_APP_URL_DEV;
+}
+
 function transformToDisplay(data: ShortLinkResponse): ShortLinkDisplay {
     const shortCode = data.shortUrl.split('/').pop() || '';
     const statsToken = extractTokenFromUrl(data.statsUrl);
+    const appBaseUrl = getAppBaseUrl();
+
+    const frontendStatsUrl = `${appBaseUrl}/stats/${shortCode}${statsToken ? `?token=${statsToken}` : ''}`;
 
     return {
         shortCode,
         shortUrl: data.shortUrl,
         originalUrl: data.originalUrl,
-        statsUrl: data.statsUrl,
+        statsUrl: frontendStatsUrl,
         qrUrl: data.qrUrl,
         statsToken,
         expiresAt: data.expiresAt,

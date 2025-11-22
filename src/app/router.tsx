@@ -5,7 +5,7 @@ import { MainLayout } from '@/shared/components/layout/MainLayout';
 import { ProtectedRoute } from '@/features/auth/components/ProtectedRoute';
 import { HomePage } from '@/features/short-links/pages/HomePage';
 import { DashboardPage } from '@/features/short-links/pages/DashboardPage';
-import StatsPage from '@/features/analytics/pages/StatsPage';
+import AnalyticsPage from '@/features/analytics/pages/AnalyticsPage';
 
 export const router = createBrowserRouter([
     {
@@ -26,7 +26,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'stats/:statsCode',
-                element: <StatsPage />,
+                element: <AnalyticsPage />,
             },
         ],
     },
