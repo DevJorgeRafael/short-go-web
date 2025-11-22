@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { useParams, useSearchParams, Link } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks/reduxHooks';
 import { getStats, clearAnalytics } from '../store/analyticsSlice';
-import { Loader2, MousePointer2, Globe, Link as LinkIcon, Clock, ArrowLeft } from 'lucide-react';
+import { Loader2, MousePointer2, Globe, Link as LinkIcon, Clock } from 'lucide-react';
 
 // Componentes nuevos
 import { TrendChart } from '../components/TrendChart';
@@ -38,15 +38,12 @@ const AnalyticsPage = () => {
   }));
 
   return (
-    <div className="min-h-screen p-4 md:p-6 lg:p-8 pb-20">
+    <div className="min-h-screen p-4 md:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto space-y-6">
 
         {/* === HEADER === */}
         <div className="flex justify-between items-end">
           <div>
-            <Link to="/" className="text-xs text-white/50 hover:text-white flex items-center gap-1 mb-1 transition-colors">
-              <ArrowLeft className="w-3 h-3" /> Volver
-            </Link>
             <h1 className="text-3xl font-display font-bold text-white">
               Dashboard <span className="text-cyan-400">#{statsCode}</span>
             </h1>
@@ -89,11 +86,11 @@ const AnalyticsPage = () => {
           />
 
           {/* 2. MIDDLE ROW: Chart (Large) + Countries (Small) */}
-          <div className="lg:col-span-3 glass-card p-6 rounded-3xl min-h-[300px]">
+          <div className="lg:col-span-3 glass-card p-6 rounded-3xl h-60">
             <TrendChart data={stats.clicksByDate} />
           </div>
 
-          <div className="lg:col-span-1 min-h-[300px]">
+          <div className="lg:col-span-1 h-60">
             <RankingList
               title="Top Países"
               items={countryItems}
@@ -103,7 +100,7 @@ const AnalyticsPage = () => {
           </div>
 
           {/* 3. BOTTOM ROW: Referrers + Activity */}
-          <div className="lg:col-span-2 h-[350px]">
+          <div className="lg:col-span-2 h-72">
             <RankingList
               title="Fuentes de Tráfico"
               items={referrerItems}
@@ -111,12 +108,13 @@ const AnalyticsPage = () => {
               type="referrer"
             />
           </div>
-          <div className="lg:col-span-2 h-[350px]">
+          <div className="lg:col-span-2 h-72">
             <RecentActivity clicks={stats.lastClicks} />
           </div>
 
         </div>
       </div>
+      <div className="h-8 md:h-6 w-full" />
     </div>
   );
 };

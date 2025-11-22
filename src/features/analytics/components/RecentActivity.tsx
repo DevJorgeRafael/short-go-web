@@ -18,7 +18,7 @@ export const RecentActivity = ({ clicks }: { clicks: LastClick[] }) => {
             <div className="p-5 border-b border-white/10">
                 <h3 className="text-sm font-bold text-white/80 uppercase tracking-wider">Última Actividad</h3>
             </div>
-            <div className="overflow-x-auto flex-1">
+            <div className="overflow-x-auto overflow-y-auto flex-1 custom-scrollbar">
                 <table className="w-full text-left text-xs text-white/60">
                     <thead className="bg-white/5 text-white/40">
                         <tr>
