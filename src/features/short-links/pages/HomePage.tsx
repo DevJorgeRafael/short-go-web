@@ -3,27 +3,34 @@ import { useAppDispatch, useAppSelector } from '@/shared/hooks/reduxHooks';
 import { createShortLink, clearCurrentLink } from '../store/shortLinksSlice';
 import { ShortLinkResult } from '../components/ShortLinkResult';
 import type { ShortLinkRequest } from '../types/shortLink.types';
+// Importamos los íconos de Lucide
+import {
+    Link as LinkIcon,
+    Loader2,
+    Zap,
+    BarChart3,
+    ShieldCheck,
+    Wand2
+} from 'lucide-react';
 
 export const HomePage = () => {
     const dispatch = useAppDispatch();
     const { currentLink, isLoading, error } = useAppSelector((state) => state.shortLinks);
 
-    // Configurar react-hook-form
     const {
         register,
         handleSubmit,
         reset,
         formState: { errors, isValid }
     } = useForm<ShortLinkRequest>({
-        mode: 'onChange', // Validación en tiempo real
+        mode: 'onChange',
     });
 
     const onSubmit = async (data: ShortLinkRequest) => {
         try {
             await dispatch(createShortLink(data)).unwrap();
-            reset(); // Limpiar el formulario después del éxito
+            reset();
         } catch (error) {
-            // El error ya está manejado en el slice
             console.error('Error al crear link:', error);
         }
     };
@@ -59,7 +66,8 @@ export const HomePage = () => {
                     <div className="p-8 md:p-12">
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                             <div className="space-y-3">
-                                <label className="text-sm font-medium text-white ml-1">
+                                <label className="text-sm font-medium text-white ml-1 flex items-center gap-2">
+                                    <Wand2 className="w-4 h-4 text-blue-300" />
                                     Pega tu link largo aquí
                                 </label>
                                 <div className="flex flex-col sm:flex-row gap-3">
@@ -78,7 +86,6 @@ export const HomePage = () => {
                                                 }
                                             })}
                                         />
-                                        {/* Error de validación del formulario */}
                                         {errors.originalUrl && (
                                             <p className="text-red-300 text-sm mt-2 ml-1">
                                                 {errors.originalUrl.message}
@@ -88,42 +95,26 @@ export const HomePage = () => {
                                     <button
                                         type="submit"
                                         disabled={isLoading || !isValid}
-                                        className="btn-gradient h-14 px-8 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold flex items-center justify-center gap-2 whitespace-nowrap"
+                                        className="btn-gradient h-14 px-8 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold flex items-center justify-center gap-2 whitespace-nowrap transition-all hover:scale-[1.02] active:scale-[0.98]"
                                     >
                                         {isLoading ? (
                                             <>
-                                                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                                                    <circle
-                                                        className="opacity-25"
-                                                        cx="12"
-                                                        cy="12"
-                                                        r="10"
-                                                        stroke="currentColor"
-                                                        strokeWidth="4"
-                                                        fill="none"
-                                                    />
-                                                    <path
-                                                        className="opacity-75"
-                                                        fill="currentColor"
-                                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                                    />
-                                                </svg>
+                                                <Loader2 className="animate-spin h-5 w-5 text-white/80" />
                                                 <span>Procesando...</span>
                                             </>
                                         ) : (
                                             <>
                                                 <span>Acortar Link</span>
-                                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                                </svg>
+                                                {/* Usamos LinkIcon o Wand2 según prefieras la metáfora */}
+                                                <LinkIcon className="w-5 h-5" strokeWidth={2.5} />
                                             </>
                                         )}
                                     </button>
                                 </div>
 
-                                {/* Error de la API */}
                                 {error && (
-                                    <div className="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3">
+                                    <div className="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3 flex items-center gap-2">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-red-400" />
                                         <p className="text-red-300 text-sm">{error}</p>
                                     </div>
                                 )}
@@ -131,44 +122,35 @@ export const HomePage = () => {
                         </form>
                     </div>
                 </div>
-                
+
                 {currentLink && (
                     <ShortLinkResult
                         link={currentLink}
                         onClose={() => dispatch(clearCurrentLink())}
-                    >
-
-                    </ShortLinkResult>
+                    />
                 )}
-
 
                 {/* FEATURES */}
                 <div className="grid sm:grid-cols-3 gap-4 mt-4">
-                    <div className="glass-card rounded-2xl p-6 text-center">
-                        <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center mx-auto mb-3">
-                            <svg className="w-6 h-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                            </svg>
+                    <div className="glass-card rounded-2xl p-6 text-center group hover:bg-white/5 transition-colors">
+                        <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-300">
+                            <Zap className="w-6 h-6 text-blue-400" strokeWidth={2} />
                         </div>
                         <h3 className="text-white font-semibold mb-1">Súper Rápido</h3>
                         <p className="text-white/50 text-sm">Acorta links en menos de 1 segundo</p>
                     </div>
 
-                    <div className="glass-card rounded-2xl p-6 text-center">
-                        <div className="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center mx-auto mb-3">
-                            <svg className="w-6 h-6 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                            </svg>
+                    <div className="glass-card rounded-2xl p-6 text-center group hover:bg-white/5 transition-colors">
+                        <div className="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-300">
+                            <BarChart3 className="w-6 h-6 text-cyan-400" strokeWidth={2} />
                         </div>
                         <h3 className="text-white font-semibold mb-1">Con Estadísticas</h3>
                         <p className="text-white/50 text-sm">Trackea clicks y ubicaciones</p>
                     </div>
 
-                    <div className="glass-card rounded-2xl p-6 text-center">
-                        <div className="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center mx-auto mb-3">
-                            <svg className="w-6 h-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                            </svg>
+                    <div className="glass-card rounded-2xl p-6 text-center group hover:bg-white/5 transition-colors">
+                        <div className="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-300">
+                            <ShieldCheck className="w-6 h-6 text-green-400" strokeWidth={2} />
                         </div>
                         <h3 className="text-white font-semibold mb-1">100% Seguro</h3>
                         <p className="text-white/50 text-sm">Links protegidos y privados</p>

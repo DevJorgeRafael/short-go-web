@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { ShortLinkDisplay } from '../types/shortLink.types';
+import { Copy, Check } from 'lucide-react';
 
 interface ShortLinkResultProps {
     link: ShortLinkDisplay;
@@ -40,9 +41,7 @@ export const ShortLinkResult = ({ link, onClose }: ShortLinkResultProps) => {
                         <div className="flex justify-between items-start mb-6">
                             <div className="flex items-center gap-3">
                                 <div className="h-10 w-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-400">
-                                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                    </svg>
+                                    <Check className="w-6 h-6" />
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-bold text-white">¡Enlace Generado!</h3>
@@ -97,13 +96,12 @@ export const ShortLinkResult = ({ link, onClose }: ShortLinkResultProps) => {
                             
                             {/* COLUMNA 1: QR CODE VISUAL */}
                             <div className="bg-white/5 rounded-2xl p-4 border border-white/10 flex flex-col items-center text-center">
-                                <div className="bg-white p-2 rounded-lg mb-3">
-                                    {/* Mostramos la imagen directamente */}
-                                    
-                                    <img 
-                                        src={link.qrUrl} 
-                                        alt="QR Code" 
-                                        className="w-32 h-32 object-contain" 
+                                {/* 1. Contenedor que actúa como "marco" de recorte */}
+                                <div className="w-32 h-32 overflow-hidden rounded-xl bg-white flex items-center justify-center border border-gray-200">
+                                    <img
+                                        src={link.qrUrl}
+                                        alt="QR Code"
+                                        className="w-full h-full object-cover scale-[1.15] transition-transform hover:scale-[1.35]"
                                     />
                                 </div>
                                 <p className="text-white font-medium text-sm">Código QR</p>
@@ -114,9 +112,7 @@ export const ShortLinkResult = ({ link, onClose }: ShortLinkResultProps) => {
                             <div className="bg-amber-500/10 rounded-2xl p-5 border border-amber-500/20 flex flex-col justify-between">
                                 <div>
                                     <div className="flex items-center gap-2 mb-3 text-amber-400">
-                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                                        </svg>
+                                        <Check className="w-5 h-5" />
                                         <h4 className="font-bold text-sm uppercase tracking-wide">Acceso Privado</h4>
                                     </div>
                                     
@@ -137,7 +133,7 @@ export const ShortLinkResult = ({ link, onClose }: ShortLinkResultProps) => {
                                         </>
                                     ) : (
                                         <>
-                                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" /></svg>
+                                            <Copy className="w-5 h-5" />
                                             Copiar Link de Administración
                                         </>
                                     )}
