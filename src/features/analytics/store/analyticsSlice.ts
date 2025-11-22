@@ -30,7 +30,7 @@ const analyticsSlice = createSlice({
     name: 'analytics',
     initialState,
     reducers: {
-        clearAnalyticsData: (state) => {
+        clearAnalytics: (state) => {
             state.data = null;
             state.error = null;
             state.isLoading = false;
@@ -53,5 +53,5 @@ const analyticsSlice = createSlice({
     }
 });
 
-export const { clearAnalyticsData } = analyticsSlice.actions;
+export const { clearAnalytics } = analyticsSlice.actions;
 export default analyticsSlice.reducer;

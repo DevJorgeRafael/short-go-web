@@ -5,7 +5,7 @@ import type { StatsRequest, StatsResponse, StatsDisplay } from "../types/analyti
 export const analyticsApi = {
     getLinkStats: async (request: StatsRequest): Promise<StatsDisplay> => {
         const response = await apiClient.get<ApiResponse<StatsResponse>>(
-            `/links/${request.code}/stats`,
+            `/stats/${request.code}`,
             {
                 params: {
                     token: request.token,
